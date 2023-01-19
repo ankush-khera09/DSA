@@ -1,0 +1,296 @@
+Submitted By: Ankush Khera (2010991826)
+
+Q 1. Write a C++ program to check whether a given number is a palindrome or not.
+Ans: 
+#include<iostream>
+#include <cmath>
+using namespace std;
+
+int main(){
+
+    int n;
+    cin>>n;
+    
+    int no = n;
+    int rev = 0;
+    while(no!=0){
+        int rem = no%10;
+        rev = (rev*10) + rem;
+        no = no/10;
+    }
+    cout<<rev<<endl;
+    if(rev==n) cout<<"Yes, it's a Palindrome no!"<<endl;
+    else cout<<"No, it's not a Palindrome no!"<<endl;
+
+    return 0;
+}
+
+---------------------------------------
+Q 2. C++ program to print all the Repeated Numbers with Frequency in an Array.
+Ans: 
+#include<iostream>
+#include <cmath>
+using namespace std;
+
+int main(){
+
+    int n;
+    cout<<"Enter the size of array: "<<endl;
+    cin>>n;
+
+    int arr[n];
+    cout<<"Enter the elements of array: "<<endl;
+    for(int i=0; i<n; i++){
+        cin>>arr[i];
+    }
+
+    for(int i=0; i<n-1; i++){
+        int count = 1;
+        if(arr[i]!=-1){
+            for(int j=i+1; j<n; j++){
+                if(arr[i]==arr[j]){
+                    count++;
+                    arr[j] = -1;
+                }
+            }
+            if(count>1) cout<<arr[i]<<" repeated "<<count<<" times!"<<endl;
+        }
+    }
+    
+
+    return 0;
+}
+
+----------------------------------------
+Q 3. WAP to print even numbers in a given range in reverse order.
+Take the range from the user.
+Ans:
+#include<iostream>
+using namespace std;
+
+int main(){
+
+    int m, n;
+    cout<<"Begin from: "<<endl;
+    cin>>m;
+    cout<<"End at: "<<endl;
+    cin>>n;
+
+    for(int i=n-1; i>=m; i--){
+        if(i%2==0) cout<<i<<" ";
+    }
+    
+    return 0;
+}
+
+---------------------------------------------
+Q 4. Write a program to calculate the sum of series up to n terms for a digit d.
+n & d are taken as input from the user.
+For example:
+    Input: n = 5, d = 2
+    Logic: 2 + 22 + 222 + 2222 + 22222 
+    Output: 24690
+Ans:
+#include<iostream>
+#include <bits/stdc++.h>
+using namespace std;
+
+int main(){
+
+    int n, d;
+    cin>>n>>d;
+    int sum = 0;
+    int prevout = 0;
+    int a = 0;
+    for(int i=0; i<5; i++){
+        prevout = (10*a)+d;
+        a = prevout;
+        sum+=prevout;
+    }
+    cout<<sum;
+
+    return 0;
+}
+
+----------------------------------------------
+Q 5. Write a program to find the digits which are absent in a given mobile number.
+   For example: Input : 9354328855
+                Output: 0167
+Ans:
+#include<iostream>
+#include <bits/stdc++.h>
+using namespace std;
+
+int main(){
+
+    int arr1[10] = {0,1,2,3,4,5,6,7,8,9};
+
+    long n;
+    cout<<"Enter mobile no: "<<endl;
+    cin>>n;
+
+    long rem;
+    int k=0;
+    int arr2[10];
+    while(n!=0){
+        rem = n%10;
+        arr2[k++] = rem;
+        n = n/10;
+    }
+
+    sort(arr2, arr2+10);
+    for(int i=0; i<10; i++){
+         cout<<arr2[i];
+    }
+    cout<<endl;
+
+    int i=0, j=0;
+    while(i<10 && j<10){
+        if(arr1[i]<arr2[j]) cout<<arr1[i++];
+        else if(arr1[i]>arr2[j]) j++;
+        else{
+            i++;
+            j++;
+        }
+    }
+    while(i<10){
+        cout<<arr1[i++];
+    }
+
+    return 0;
+}
+
+-----------------------------------------------
+Q 6. WAP in program which accepts string from the user and
+displays only those characters/elements which are present at an even index.
+Example: 
+    Input: "Python"
+    Output: Pto
+Ans:
+#include<iostream>
+using namespace std;
+
+int main(){
+
+    string s;
+    cin>>s;
+
+    for(int i=0; i<s.length(); i++){
+        if(i%2==0) cout<<s[i];
+    }
+    
+    return 0;
+}
+
+------------------------------------------------
+Q 7. WAP to make an array of all the characters starting from character 'A'
+to input character from the user.
+For e.g. Input: 'H'
+        Output: ("A", "B", "C", "D", "E", "F", "G", "H")
+Ans:
+#include<iostream>
+using namespace std;
+
+int main(){
+
+    char c;
+    cin>>c;
+
+    for(int i=65; i<=c; i++){                           //for(char i='A';i<=c;i++) cout<<i<<" ";
+        cout<<char(i)<<" ";
+    }
+    
+    return 0;
+}
+
+------------------------------------------------
+Q 8. Write a python program to find the intersection of elements from two arrays
+(find the common elements in two lists).
+Ans:
+#include<iostream>
+#include <bits/stdc++.h>
+using namespace std;
+
+int main(){
+
+    int m, n;
+    cout<<"Enter the size of 1st array: "<<endl;
+    cin>>m;
+    int arr1[m];
+    
+    cout<<"Enter the elements of 1st array: "<<endl;
+    for(int i=0; i<m; i++){
+        cin>>arr1[i];
+    }
+    sort(arr1, arr1+m);
+
+    cout<<"Enter the size of 2nd array: "<<endl;
+    cin>>n;
+    int arr2[n];
+
+    cout<<"Enter the elements of 2nd array: "<<endl;
+    for(int i=0; i<n; i++){
+        cin>>arr2[i];
+    }
+    sort(arr2, arr2+n);
+
+    int i=0, j=0;
+
+    while(i<m && j<n){
+        if(arr1[i]<arr2[j]) i++;
+        else if(arr2[j]<arr1[i]) j++;
+        else{
+            cout<<arr1[i]<<" ";
+            i++;
+            j++;
+        }
+    }
+
+    return 0;
+}
+
+------------------------------------------------
+Q 9. WAP to reverse a given integer number.
+Example: Input: 105320
+        Output: 023501
+Ans:
+#include<iostream>
+using namespace std;
+
+int main(){
+
+    int n;
+    cin>>n;
+
+    int rem;
+    while(n!=0){
+        rem = n%10;
+        cout<<rem;
+        n = n/10;
+    }
+    
+    return 0;
+}
+
+------------------------------------------------
+Q 10. WAP to concatenate elements of two arrays in the following order:
+    a1 = ("Hello ", "World")
+    a2 = ("Hi", "There")
+    Output: ('Hello Hi', 'Hello There', 'World Hi', 'World There')
+Ans:
+#include<iostream>
+using namespace std;
+
+int main(){
+
+    string a1[] = {"Hello ", "World "};
+    string a2[] = {"Hi", "There"};
+
+    for(int i=0; i<2; i++){
+        for(int j=0; j<2; j++){
+            cout<<a1[i]+a2[j]<<endl;
+        }
+    } 
+    
+    return 0;
+}

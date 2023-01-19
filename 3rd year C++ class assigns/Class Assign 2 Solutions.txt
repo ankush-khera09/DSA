@@ -1,0 +1,637 @@
+Que 1: Find average of largest 3 elements of an array:
+
+#include<iostream>
+#include <bits/stdc++.h>
+using namespace std;
+
+int main(){
+
+    int n;
+    cin>>n;
+
+    int arr[n];
+    for(int i=0; i<n; i++){
+        cin>>arr[i];
+    }
+    int first, second, third;
+    first = second = third = INT_MIN;
+
+    for(int i=0; i<n; i++){
+        if(arr[i]>first){
+            third = second;
+            second = first;
+            first = arr[i];
+        }else if(arr[i]>second){
+            third = second;
+            second = arr[i];
+        }else if(arr[i]>third){
+            third = arr[i];
+        }
+    }
+    cout<<"Largest 3 elements: "<<first<<" "<<second<<" "<<third<<endl;
+    double avg = double(first+second+third)/3;
+    cout<<"Average: "<<avg<<endl;
+    return 0;
+}
+
+----------------------------------------------
+Que 2: Union of 2 sorted arrays:
+
+#include<iostream>
+#include <bits/stdc++.h>
+using namespace std;
+
+int main(){
+
+    int n1, n2;
+    cout<<"Enter size of 1st array: ";
+    cin>>n1;
+    cout<<"Enter size of 2nd array: ";
+    cin>>n2;
+
+    int arr1[n1];
+    cout<<"Enter elements of first array: "<<endl;
+    for(int i=0; i<n1; i++){
+        cin>>arr1[i];
+    }
+    sort(arr1, arr1+n1);
+    int arr2[n2];
+    cout<<"Enter elements of second array: "<<endl;
+    for(int i=0; i<n2; i++){
+        cin>>arr2[i];
+    }
+    sort(arr2, arr2+n2);
+    
+    int i = 0, j = 0, k = 0;
+    int n = n1+n2;
+    int arr[n];
+    while(i<n1 && j<n2){
+        if(arr1[i]<arr2[j]) arr[k++] = arr1[i++];
+        else if(arr2[j]<arr1[i]) arr[k++] = arr2[j++];
+        else{
+            arr[k++] = arr1[i++];
+            j++;
+        }
+    }
+    while(i<n1){
+        arr[k++] = arr1[i++];
+    }
+    while(j<n2){
+        arr[k++] = arr2[j++];
+    }
+
+    for(int i=0; i<k; i++){
+        cout<<arr[i]<<" ";
+    }
+    return 0;
+}
+
+----------------------------------------
+Que 3: Ceil and floor of all elements of an unsorted array:
+
+#include<iostream>
+#include <bits/stdc++.h>
+using namespace std;
+
+int main(){
+
+    int n;
+    cout<<"Enter size of array: ";
+    cin>>n; 
+    double arr[n];
+    cout<<"Enter elements of array: "<<endl;
+    for(int i=0; i<n; i++){
+        cin>>arr[i];
+    }
+    cout<<"Floor of elements: ";
+    for(int i=0; i<n; i++){
+        cout<<(int)arr[i]<<" ";
+    }
+    cout<<endl;
+    cout<<"Ceil of elements: ";
+    for(int i=0; i<n; i++){
+        if((int)arr[i] == arr[i]) cout<<(int)arr[i]<<" ";
+        else cout<<(int)arr[i]+1<<" ";
+    }
+
+    return 0;
+}
+
+---------------------------------------
+Que 4: Take a string sentence from the user and convert it to title case, capitalise case & sentence case:
+string s;
+    getline(cin,s);
+
+    //Title Case (first alphabet of each word caps)
+
+    string ans = "";
+    ans = toupper(s[0]);
+    for(int i=1; i<s.length(); i++){
+        ans += s[i];
+        if(s[i]==' '){
+            ans += toupper(s[i+1]);
+            i++;
+        }
+    }
+    cout<<ans<<endl;
+
+    //Capitalise Case (caps only first alphabet of a line)
+
+    string ans2 = "";
+    ans2 = toupper(s[0]);
+    for(int i=1; i<s.length(); i++){
+        ans2 += s[i];
+    }
+    cout<<ans2<<endl;
+
+    //Sentence Case (caps first alphabet of each sentence)
+
+    string ans3 = "";
+    ans3 = toupper(s[0]);
+    for(int i=1; i<s.length(); i++){
+        ans3 += s[i];
+        if(s[i]=='.'){
+            if(s[i+1]==' '){
+                ans3 += s[i+1];
+                ans3 += toupper(s[i+2]);
+                i+=2;
+            }else{
+                ans3 += toupper(s[i+1]);
+                i++;
+            }
+            
+        }
+    }
+    cout<<ans3<<endl;
+
+---------------------------------------
+Que 5: 
+Input = 3/11/2014 , Output: Day = 3, Month = 11, Year = 2014
+Input = Sharukh Khan, Output: Fn = 'Sharukh', ln = 'Khan'
+
+Ans:
+
+INPUT 1: ----------------------------------
+
+string day="", month="", year="";
+
+    bool first = false, second = false;    // first slash & second slash
+
+    for(int i=0; i<s.length(); i++){
+        if(s[i]=='/'){
+            if(first){
+                second = true;
+            }    
+            else{
+                first = true;
+            }
+            continue;        // we have got slash so ab toh kuch krna ni h is iteration me
+        }
+
+        if(first && second){
+            year+=s[i];
+        }
+        else if(first){
+            month+=s[i];
+        }
+        else{
+            day+=s[i];
+        }
+
+    }
+    cout<<"Day: "<<day<<endl;
+    cout<<"Month: "<<month<<endl;
+    cout<<"Year: "<<year<<endl;
+
+INPUT 2:  ----------------------------------
+
+string s;
+    getline(cin,s);
+
+    string fn, ln;
+
+    int i = 0;
+    while(s[i]!=' ' && i<s.length()){
+        fn+=s[i];
+        i++;
+    }
+    i++;
+    while(i<s.length()){
+        ln+=s[i];
+        i++;
+    }
+    cout<<"FN: "<<fn<<endl;
+    cout<<"LN: "<<ln<<endl;
+
+---------------------------------------
+Que 6: Find the minimum and maximum product of 2 no's in an unsorted array:
+
+#include<iostream>
+#include <bits/stdc++.h>
+using namespace std;
+
+int main(){
+    
+    int n;
+    cout<<"Enter size of array: ";
+    cin>>n;
+
+    int arr[n];
+    cout<<"Enter elements of array: "<<endl;
+    for(int i=0; i<n; i++){
+        cin>>arr[i];
+    }
+
+    int minprod = INT_MAX;
+    int maxprod = INT_MIN;
+
+    for(int i=0; i<n-1; i++){
+        for(int j=i+1; j<n; j++){
+            int prod = arr[i]*arr[j];
+            if(prod>maxprod) maxprod = prod;
+            else if(prod<minprod) minprod = prod;
+        }
+    }
+
+    cout<<"Min Prod: "<<minprod<<endl;
+    cout<<"Max Prod: "<<maxprod<<endl;
+
+    return 0;
+}
+
+---------------------------------------
+Que 7: WAP to find the round up and round down of an input float upto 2 decimal places:
+eg: I/P = 3.99634
+O/P up = 3.97
+O/P down = 3.96
+
+
+
+---------------------------------------
+Que 8: WAP to create an array having elements in AP. Take arr len, AP step size and AP starting point as input:
+
+#include<iostream>
+#include<bits/stdc++.h>
+using namespace std;
+
+int main(){
+    
+    int n, step, first;
+
+    cout<<"Enter the length of arrray: ";
+    cin>>n;
+
+    cout<<"Enter the step size for the elements: ";
+    cin>>step;
+
+    cout<<"Enter the first element: ";
+    cin>>first;
+
+    int arr[n];
+    arr[0] = first;
+    int sum = first;
+    for(int i=1; i<n; i++){
+        sum = sum + step;
+        arr[i] = sum;
+    }
+
+    for(int i=0; i<n; i++){
+        cout<<arr[i]<<" ";
+    }
+    
+    return 0;
+}
+--------------------------------------
+Que 9: Take full name and current date as input from the user. Calculate and print the no of days passed till the current day from the 1st Jan of the current year & o/p the following:
+I/P = name: Salman Khan
+      current date: 15/07/2022
+
+O/P = Hello Salman,
+      Welcome to the 196th day of 2022.
+
+---------------------------------------
+Project 1: Make a login/signup system using username and password:
+
+#include <iostream>
+#include <string>
+#include <bits/stdc++.h>
+using namespace std;
+
+vector <string> userarr = {"ankush09", "jiya_001"};
+vector <string> passarr = {"ankush1", "Jiya@89"};
+string username, password;
+int index;
+bool flag = false;
+
+//////////////// For login:
+
+void checkusername(string username)
+{
+    for (int i = 0; i < userarr.size(); i++)
+    {
+        if (userarr[i] == username)
+        {
+            flag = true;
+            index = i;
+            return;
+        }
+    }
+    cout << "This username doesn't exist!" << endl;
+    cout << "Enter another username: ";
+    cin >> username;
+    checkusername(username);
+}
+
+void checkpassword()
+{
+    if (flag == true)
+    {
+        cout << "Enter your password: ";
+        cin >> password;
+        if (passarr[index] == password)
+        {
+            cout << "Successfully logged in!" << endl;
+        }
+        else
+        {
+            cout << "Wrong Password!!" << endl;
+            cout << "Try another Password: " << endl;
+            checkpassword();
+        }
+    }
+}
+
+/////////// For Signup:
+
+void validatepassword(string s)
+{
+    int strength = 0;
+    if (s.length() >= 8)
+        strength++;
+
+    int up = 0, low = 0, dig = 0, specialchar = 0;
+    for (int i = 0; i < s.length(); i++)
+    {
+        if (s[i] >= 65 && s[i] <= 90)
+            up++;
+        else if (s[i] >= 97 && s[i] <= 122)
+            low++;
+        else if(s[i] >= 48 && s[i] <= 57)
+            dig++;
+        else
+            specialchar++;
+        if (up >= 1 && low >= 1 && dig>=1 && specialchar>=1)
+        {
+            strength++;
+            break;
+        }
+    }
+
+    if (strength == 2)
+    {
+        cout << "Signed up Successfully!" << endl;
+        passarr.push_back(password);
+    }
+    else
+    {
+        cout << "Your password isn't strong!" << endl;
+        cout << "Enter a password with at least one upper case char, digit & special char: ";
+        cin >> password;
+        validatepassword(password);
+    }
+}
+
+
+void validateusername(string username)
+{
+    bool flag3 = true;
+    for (int i = 0; i < userarr.size(); i++)
+    {
+        if (userarr[i] == username)
+        {
+            cout << "This username already exists!" << endl;
+            cout << "Try another good username!" << endl;
+            flag3 = false;
+            break;
+        }
+    }
+    if (flag3 == false)
+    {
+        cout << "Enter another good username: ";
+        cin >> username;
+        validateusername(username);
+    }
+    else
+    {
+        bool uflag = true;
+        for (int i = 0; i < username.length(); i++)
+        {
+            if (!((username[i] >= 97 && username[i] <= 122) || (username[i] >= 48 && username[i] <= 56) || (username[i] == 95)))
+            {
+                uflag = false;
+                break;
+            }
+        }
+        if (uflag == false)
+        {
+            cout << "Invalid Username!" << endl;
+            cout << "A username can only contain [a-z] or [0-9] or _" << endl;
+            cout << "Enter another username: ";
+            cin >> username;
+            validateusername(username);
+        }
+        else
+        {
+            cout << "Username accepted :)" << endl;
+            userarr.push_back(username);
+            cout << "Enter one strong password: " << endl;
+            cin >> password;
+            validatepassword(password);
+        }
+    }
+}
+
+int main()
+{
+
+    cout << "Do you want to login or signup?" << endl;
+    cout << "Enter 1 for login and 2 for signup: ";
+    int n;
+    cin >> n;
+
+    if (n == 1)
+    {
+        cout << "Enter your username: ";
+        cin >> username;
+        checkusername(username);
+        checkpassword();
+    }
+    else if (n == 2)
+    {
+        cout << "Enter one good username: ";
+        cin >> username;
+        validateusername(username);
+    }
+
+    return 0;
+}
+
+---------------------------------------
+Project 2: Tic Tac Toe game for 2 users (Use Matrix):
+
+#include<iostream>
+#include<bits/stdc++.h>
+using namespace std;
+
+int main(){
+    
+    string p1, p2;
+    cout<<"Namaste!"<<endl;
+    cout<<"Enter Player 1's name: ";
+    cin>>p1;
+    cout<<"Enter Player 2's name: ";
+    cin>>p2;
+
+    cout<<"Welcome "<<p1<<" & "<<p2<<" to the TIC-TAC-TOE game, We wish you both Good luck :)"<<endl;
+
+    char arr[3][3];
+
+    cout<<"This will be your base: "<<endl;
+    for(int i=0; i<3; i++){
+        for(int j=0; j<3; j++){
+            cout<<"|"<<i<<","<<j<<"|"<<" ";
+        }
+        cout<<endl;
+    }
+
+    cout<<p1<<", Your char will be 'X' and "<<p2<<", yours will be 'O' respectively!"<<endl;
+    cout<<"To insert your char at desired position, give respective indices :)";
+    
+    
+
+
+    return 0;
+} 
+
+
+
+
+
+----------------------------------------------------EXAM QUES
+
+2-D array AP:
+
+#include<iostream>
+#include<bits/stdc++.h>
+using namespace std;
+
+bool checkAP(int arr[], int n){
+    if(n==1) return true;
+
+    sort(arr,arr+n);
+    for(int i=0; i<n; i++){
+        cout<<arr[i]<<" ";
+    }
+    
+    int d = arr[1]-arr[0];
+    for(int i=2; i<n; i++){
+        if(arr[i]-arr[i-1]!=d) return false;
+    }
+    return true;
+}
+
+int main(){
+    
+    int rows, cols;
+    cout<<"Enter no of rows: ";
+    cin>>rows;
+    cout<<"Enter no of cols: ";
+    cin>>cols;
+
+
+    if(cols!=2) cout<<"Invalid";
+    else{
+        int arr[rows][cols];
+        for(int i=0; i<rows; i++){                   // Taking Input
+            for(int j=0; j<cols; j++){
+                cin>>arr[i][j];
+            }
+        }
+        
+        int arr1[rows];
+        int arr2[rows];
+        for(int i=0; i<rows; i++){               // array1
+            arr1[i]=arr[i][0];
+        }
+        bool res1 = checkAP(arr1, rows);
+
+        for(int i=0; i<rows; i++){               // array2
+            arr2[i]=arr[i][1];
+        }
+        bool res2 = checkAP(arr2, rows);
+
+        if(res1==true && res2==true) cout<<"YES";
+        else cout<<"NO";
+
+    }
+
+    return 0;
+}
+
+
+-------------------------------------
+#include<iostream>
+#include<bits/stdc++.h>
+using namespace std;
+
+int main(){
+
+    int arr[7] = {1,2,5,3,2,6,1};
+    vector <int> v;
+    int ele = 1;
+    for(int i=0; i<7; i++){
+        if(arr[i]==ele){
+            v.push_back(i);
+        }
+    }
+    if(v.size()==0) cout<<"-1";
+    else{
+        for(int i=0; i<v.size(); i++){
+            cout<<v[i]<<" ";
+        }
+    }
+
+    return 0;
+}
+
+-------------------------------------------\
+#include<iostream>
+#include<bits/stdc++.h>
+using namespace std;
+
+int main(){
+    float a, b, c;
+    cin>>a>>b>>c;
+
+    float d = b*b-4*a*c;
+    float x1, x2, real, imag;
+
+    if(d==0){
+        cout<<"Roots are real and equal: ";
+        x1 = -b/(2*a);
+        cout<<"x1 = x2 = "<<x1;
+    }else if(d>0){
+        cout<<"Roots are real & different: ";
+        x1 = (-b+sqrt(d))/(2*a);
+        x2 = (-b-sqrt(d))/(2*a);
+        cout<<"x1= "<<x1<<" x2= "<<x2;
+    }else if(d<0){
+        cout<<"Roots are complex & different: ";
+        real = -b/2*a;
+        imag = sqrt(-d)/(2*a);
+        cout<<real<<" + "<<imag<<"i";
+    }
+
+    return 0;
+}
+
