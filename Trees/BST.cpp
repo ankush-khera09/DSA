@@ -103,9 +103,9 @@ Node* Tree::RecInsert(Node* p, int key){
     }
 
     if(key < p->data) p->left = RecInsert(p->left, key);
-    else p->right = RecInsert(p->right, key);
+    else if(key > p->data) p->right = RecInsert(p->right, key);
 
-    return t;
+    return p;
 }
 
 int Tree::height(Node* p){
@@ -114,6 +114,10 @@ int Tree::height(Node* p){
     int y = height(p->right);
     return x>y ? x+1 : y+1;
 }
+
+// InOrder Predecessor: rightmost ele of left subtree
+// left jaake right right right
+// yha hum logon ne pass hi p->left krdiya hai Delete() me
 
 Node* Tree::InPre(Node* p){
     while(p && p->right) p=p->right;
@@ -144,7 +148,7 @@ Node* Tree::Delete(Node* p, int key){
         if(height(p->left) > height(p->right)){
             Node* q = InPre(p->left);     // take inOrder Predecessor
             p->data = q->data;            // Replace its value with inOrder Predecessor
-            p->left = Delete(p->left, q->data);
+            p->left = Delete(p->left, q->data);     // ab us InPre ko jaake delete krdo
         }else{
             Node* q = InSucc(p->right);
             p->data = q->data;

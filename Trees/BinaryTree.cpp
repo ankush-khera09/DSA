@@ -32,6 +32,8 @@ class Tree{
         void InOrder(Node *p);
         void IterInOrder(Node *p);
 
+        void MorrisTraversal(Node* p);        // InOrder without Recursion & Stack
+
         void PostOrder(Node *p);
         void IterPostOrder(Node *p);
 
@@ -137,6 +139,36 @@ void Tree::IterInOrder(Node *p){
             s.pop();
             cout<<p->data<<" ";
             p = p->rchild;
+        }
+    }
+}
+
+void Tree::MorrisTraversal(Node* root){
+    
+    if(root == NULL) return;
+
+    Node* curr = root;
+    
+    while(curr!=NULL){
+        if(curr->lchild == NULL){
+            cout<<curr->data<<" ";
+            curr = curr->rchild;
+        }else{
+            // Find InOrder Predecessor of current node
+            Node* pred = curr->lchild;
+            while(pred->rchild != NULL && pred->rchild != curr){
+                pred = pred->rchild;
+            }
+            // making temporary link
+            if(pred->rchild == NULL){
+                pred->rchild = curr;
+                curr = curr->lchild;
+            }else{
+                // removing temporary link
+                pred->rchild = NULL;
+                cout<<curr->data<<" ";
+                curr = curr->rchild;
+            }
         }
     }
 }
@@ -321,6 +353,10 @@ int main(){
     t.InOrder(t.root);
     cout<<endl;
     t.IterInOrder(t.root);
+    cout<<endl;
+
+    cout<<"Morris Traversal: ";
+    t.MorrisTraversal(t.root);
     cout<<endl;
 
     cout<<"PostOrder Traversal:"<<endl;
