@@ -66,7 +66,7 @@ Node* Tree::IterSearch(Node* t, int key){
 // CREATING A BST (Inserting a new Node in BST)
 void Tree::Insert(int key){
     Node* t = root;
-    Node *r, *p;
+    Node *r, *p;         // r => tail pointer
 
     // if it is the first node to be inserted
     if(root==NULL){

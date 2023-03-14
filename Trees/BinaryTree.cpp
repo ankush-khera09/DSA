@@ -230,7 +230,7 @@ void Tree::LevelOrder(Node *p){
 void Tree::LevelOrder(Node *p){
     queue<Node*> q;
 
-    q.emplace(p);
+    q.push(p);
     q.push(NULL);
 
     while(!q.empty()){
