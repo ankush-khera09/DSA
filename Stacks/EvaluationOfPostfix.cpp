@@ -11,6 +11,10 @@ int Eval(string str){
         char c = str[i];
 
         if((c>='a' && c<='z') || (c>='A' && c<='Z') || (c>='0' && c<='9')) s.push(c-'0');
+        // or 
+        // if(c!="+" && c!="-" && c!="*" && c!="/") s.push(stoi(c));
+
+        // if it is an operator
         else{
             x2 = s.top();
             s.pop();
@@ -32,10 +36,10 @@ int Eval(string str){
                     break;
             }
 
-            s.push(r);
+            s.push(r);           // push the result obtained in the stack
         }
     }
-    return s.top();
+    return s.top();             // final ans would be left in the stack
 }
 
 int main(){

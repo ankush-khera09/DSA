@@ -2,517 +2,629 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-struct Node{
-    int data;                                  // Node Structure
-    struct Node *next;
-}*first = NULL;
+class Node{
+    public:
+        int data;
+        Node* next;
 
-void create(int A[], int n){
-    struct Node *temp, *last;                         
+        Node(int x){
+            this->data = x;
+            this->next = NULL;
+        }
+};
 
-    first = new Node;                     // Creating first Node
-    first->data = A[0];                     
-    first->next = NULL;
-    last = first;
+class LinkedList{
+    public:
+        Node* head;
 
-    for(int i=1; i<n; i++){            // Creating nodes and linking them to make a LL
-        temp = new Node;
-        temp->data = A[i];
-        temp->next = NULL;
-        last->next = temp;
-        last = temp;
-    }
+        LinkedList(){
+            head = NULL;
+        }
+        
+        LinkedList(int arr[], int n){
+            Node *temp, *last;              // temp for making a node & last will point to last node in LL
+        
+            head = new Node(arr[0]);              // making first node
 
-}
+            last = head;
 
-void display(struct Node *p){           // Printing a LL
-    while(p!=NULL){
+            for(int i=1; i<n; i++){
+                temp = new Node(arr[i]);           // Creating nodes and linking them to make a LL
+                last->next = temp;
+                last = temp;
+            }
+        }
+
+        void display(Node* head);            // to print the LL
+        void RecDisplay(Node* head);                  // Recursively
+        void RecDisplayRec(Node* head);              // Recursively + print in reverse order
+
+        int count(Node* head);                  // length of LL (no. of nodes in LL)
+        int RecCount(Node* head);
+
+        int sum(Node* head);                    // sum of all nodes
+        int RecSum(Node* head);
+
+        int maxEle(Node* head);                     // maximum element in LL
+        int RecMaxEle(Node* head);
+
+        Node* linearSearch(Node* head, int key);
+        Node* RecLinearSearch(Node* head, int key);
+        Node* ImprovedLinearSearch(Node* head, int key);         // using "MOVE TO HEAD" method
+
+        void Insert(Node* head, int index, int ele);
+        void InsertAtLast(Node* head, int ele);
+        void InsertInSortedLL(Node* head, int ele);
+
+        int deleteNode(Node** head, int index);
+
+        bool checkSort(Node* head);
+
+        void removeDuplicatesFromSortedLL(Node* head);
+
+        void revLL(Node* head);
+        Node* revLinksLL(Node* head);
+        void recRev(Node* q, Node* p);
+
+        void concat(Node* head1, Node* head2);
+
+        void merge2LL(Node* p, Node* q);
+
+        bool isLoop(Node* head);
+        Node* startOfLoop(Node* head);
+        void removeLoop(Node* head);
+
+        Node* middle(Node* head);
+        Node* middle2(Node* head);
+
+        Node* IntersectionOfTwoLL1(Node* head1, Node* head2);
+        Node* IntersectionOfTwoLL2(Node* head1, Node* head2);
+
+        Node* removeLLElements1(Node* head, int val);
+        Node* removeLLElements2(Node* head);
+};
+
+void LinkedList::display(Node* head){
+    Node* p = head;
+    while(p){
         cout<<p->data<<" ";
-        p = p->next;
+        p=p->next;
     }
 }
 
-void recDisplay(struct Node *p){          // Printing LL Recursively
-    if(p!=NULL){
+void LinkedList::RecDisplay(Node* head){
+    Node* p = head;
+    if(p != NULL){
         cout<<p->data<<" ";
-        recDisplay(p->next);
+        RecDisplay(p->next);
     }
 }
 
-void recDisplayRev(struct Node *p){          // Printing LL Recursively in reverse order
-    if(p!=NULL){
-        recDisplayRev(p->next);
+void LinkedList::RecDisplayRec(Node* head){
+    Node* p = head;
+    if(p){
+        RecDisplayRec(p->next);
         cout<<p->data<<" ";
     }
 }
 
-int lenofll(struct Node *p){
-    int count = 0;                          // Length of LL
-    while(p!=NULL){
+int LinkedList::count(Node* head){
+    Node* p = head;
+    int count = 0;
+    while(p){
         count++;
-        p = p->next;
+        p=p->next;
     }
     return count;
 }
 
-int recLenofll(struct Node *p){
-    int count = 0;                          // Length of LL Recursively
+int LinkedList::RecCount(Node* head){
+    Node* p = head;
+
     if(p==0) return 0;
-    else return recLenofll(p->next)+1;
+
+    return count(p->next)+1;
 }
 
-int sumofll(struct Node *p){
+int LinkedList::sum(Node* head){
+    Node* p = head;
     int sum = 0;
-    while(p!=0){                          // Sum of elements of LL
-        sum+=p->data;
-        p = p->next;
+    while(p){
+        sum += p->data;
+        p=p->next;
     }
     return sum;
 }
 
-int recSumofll(struct Node *p){
-    int sum = 0;                        // Sum of elements of LL Recursively
+int LinkedList::RecSum(Node* head){
+    Node* p = head;
     if(p==0) return 0;
-    else return recSumofll(p->next)+p->data;
+    return RecSum(p->next)+p->data;
 }
 
-int maxele(struct Node *p){
-    int max = INT_MIN;                     // Maximum Element
-    while(p!=0){
-        if(p->data>max){
-            max = p->data;
-            p=p->next;
-        }else{
-            p=p->next;
+int LinkedList::maxEle(Node* head){
+    Node* p = head;
+    int maxi = INT_MIN;
+    while(p){
+        if(p->data > maxi){
+            maxi = p->data;
         }
-        
-    }
-    return max;
-}
-
-int recMaxEle(struct Node *p){
-    int max = INT_MIN;                      // Maximum Element Recursively
-    if(p==0) return INT_MIN;
-    else{
-        max = recMaxEle(p->next);
-        if(max>p->data) return max;
-        else return p->data;
-    }
-}
-
-struct Node* linSearch(struct Node *p, int key){
-    while(p!=0){
-        if(key==p->data) return p;                 // Linear Search
         p=p->next;
     }
-    return NULL;
+    return maxi;
 }
 
-struct Node* recLinSearch(struct Node *p, int key){
-    if(p==NULL) return NULL;                      // Linear Search Recursively
-    if(key==p->data) return p;
-    return recLinSearch(p->next, key);
+int LinkedList::RecMaxEle(Node* head){
+    Node* p = head;
+    int maxi = INT_MIN;
+
+    if(p==0) return INT_MIN;
+    
+    maxi = RecMaxEle(p->next);
+    if(p->data > maxi) return p->data;
+    return maxi;
 }
 
-struct Node* TranspositionLinSearch(struct Node *p, int key){
-    struct Node *q = NULL;
-    while(p!=0){                                // Transposition in Linear Search
-        if(key==p->data){
+Node* LinkedList::linearSearch(Node* head, int key){
+    Node* p = head;
+    while(p){
+        if(key == p->data) return p;
+        p=p->next;
+    }
+    return NULL;                   // if key not found
+}
+
+Node* LinkedList::RecLinearSearch(Node* head, int key){
+    Node* p = head;
+
+    if(p==0) return NULL;
+    if(p->data == key) return p;
+    return RecLinearSearch(p->next, key);
+}
+
+Node* LinkedList::ImprovedLinearSearch(Node* head, int key){
+    // Using "MOVE TO HEAD" method
+    Node* p = head;
+    Node* q = NULL;
+
+    while(p){
+        if(p->data == key){
             q->next = p->next;
-            p->next = first;
-            first = p;
+            p->next = head;
+            head = p;
             return p;
-        };
+        }
+        
         q=p;
         p=p->next;
     }
     return NULL;
 }
 
-void Insert(struct Node *p, int index, int x){
-    struct Node *t;
-    if(index<0 || index>lenofll(p)) return;
-                                                  // Inserting Nodes
-    t = new Node;
-    t->data = x;
+void LinkedList::Insert(Node* head, int index, int ele){
+    Node* p = head;
+    
+    if(index < 0 || index > count(head)) return;           // checking if index is valid
 
+    Node* temp = new Node(ele);
+    // inserting at first
     if(index==0){
-        t->next = first;
-        first = t;
+        temp->next = head;
+        head = temp;
     }else{
+        // inserting in between
         for(int i=0; i<index-1; i++){
             p=p->next;
         }
-        t->next = p->next;
-        p->next = t;
+
+        temp->next = p->next;
+        p->next = temp;
     }
+
 }
 
-void InsertLast(int x){
-    struct Node *t = new Node;
-    t->data = x;
-    t->next = NULL;                      // Creating a LL by inserting node at last
+// Creating a LL by inserting node at last
+void LinkedList::InsertAtLast(Node* head, int ele){
+    Node* temp = new Node(ele);
 
-    if(first==NULL){
-        first = t;
-    }else{
-        struct Node *last = first;
-        while(last->next!=0){
-            last=last->next;
-        }
-        last->next = t;
-        last = t;
-    }
-}
-
-void InsInSort(struct Node *p, int x){
-    struct Node *t = new Node;             // Inserting Node in a sorted LL
-    t->data = x;
-    t->next = NULL;
-
-    struct Node *q = NULL;
-
-    if(first==NULL) first = t;
+    // if the LL is empty
+    if(head==NULL) head = temp;
     else{
-        while(p && p->data < x){
-            q = p;
+        // if the LL is not empty => move to last node of the LL
+        Node* last = head;
+        while(last->next != NULL) last = last->next;
+        last->next = temp;
+        last = temp;
+    }
+}
+
+// Inserting Node in a Sorted LL
+void LinkedList::InsertInSortedLL(Node* head, int ele){
+    Node* p = head;
+    Node* q = NULL;
+
+    Node* temp = new Node(ele);
+
+    if(head==NULL) head = temp;
+    else{
+        while(p && p->data < temp->data){
+            q = p; 
             p = p->next;
         }
-        if(p==first){
-            t->next = first;
-            first = t;
+
+        if(p==head){
+            temp->next = head;
+            head = temp;
         }else{
-            t->next = p;
-            q->next = t;
+            q->next = temp;
+            temp->next = p;
         }
     }
 }
 
-int deleteNode(struct Node *p, int index){
-    struct Node *q = NULL;                           // Deleting Nodes
+// we have used here **head as we are passing this pointer head as call by reference using pointer
+// this is because when index==0, head node for this below function will be updated but the real head will
+// remain same and will not reflect any change
+
+// or without these Node** :  we can return updated head node from this function
+int LinkedList::deleteNode(Node** head, int index){
+    Node *p = *head;
+    Node *q = NULL;
+
     int x = -1;
 
-    if(index<1 || index>lenofll(p)) return -1;
+    if(index < 0 || index >= count(*head)) return -1;
 
-    if(index==1){
-        q = first;
-        first=first->next;
+    if(index==0){
+        q = *head;
+        *head = (*head)->next;
         x = q->data;
         delete q;
     }else{
-        for(int i=0; i<index-1; i++){
-            q=p;
-            p=p->next;
+        for(int i=0; i<index; i++){
+            q = p;
+            p = p->next;
         }
         q->next=p->next;
-        x=p->data;
+        x = q->data;
         delete p;
     }
     return x;
 }
 
-bool checkSort(struct Node *p){
-    int x = INT_MIN;                   // Check if a LL is sorted or not
-    while(p!=0){
-        if(p->data < x) return false;
-
-        x = p->data;
-        p = p->next;
+// using just one pointer
+// we will store value of previous node and move p to compare with previous value & then update previous value
+bool LinkedList::checkSort(Node* head){
+    Node* p = head;
+    int previous = INT_MIN;
+    while(p){
+        if(p->data < previous) return false;
+        
+        previous = p->data;
+        p=p->next;
     }
     return true;
 }
 
-void RemoveDupFromSortedLL(struct Node *p){
-    struct Node *q = first->next;
-    while(q!=0){                               // Remove Duplicates from sorted LL
-        if(p->data!=q->data){
-            p=q;
-            q=q->next;
-        }else{
+void LinkedList::removeDuplicatesFromSortedLL(Node* head){
+    Node* p = head;
+    Node* q = head->next;        // 1 2 3 4 4 5
+
+    while(q){
+        if(p->data == q->data){
             p->next = q->next;
             delete q;
             q = p->next;
+        }else{
+            p = q;
+            q = q->next;
         }
     }
 }
 
-void revLL(struct Node *p){
-    int n = lenofll(p);
-    int temp[n] ={0};                 // Reversing elements of LL
-    for(int i=0; i<n; i++){
-        temp[i] = p->data;
+void LinkedList::revLL(Node* head){
+    int n = count(head);
+    int arr[] = new int[n];
+
+    Node* p = head;
+    int i = 0;
+    while(p){
+        arr[i++] = p->data;
         p=p->next;
     }
-    // int i=0;
-    // while(p!=NULL){
-    //     temp[i++] = p->data;
-    //     p=p->next;
-    // }
-    p=first;
+
+    p = head;
     for(int i=n-1; i>=0; i--){
-        p->data = temp[i];
+        p->data = arr[i];
         p=p->next;
     }
 }
 
-void revLinksLL(struct Node *p){
-    struct Node *q=NULL, *r=NULL;
-    while(p!=0){                   // Reverse LL by reversing links using 3 sliding pointers
-        r=q;
-        q=p;
-        p=p->next;
-        q->next=r;
+Node* LinkedList::revLinksLL(Node* head){
+    // r => previous node
+    // q => current node
+    // p => next node
+    Node *p = head;
+    Node *q = *r = NULL;
+
+    while(p){
+        r = q;
+        r = p;
+        p = p->next;
+        q->next = r;      // reversing link
     }
-    first = q;
+    return q;       // returning new head
 }
 
-void recRev(struct Node *q, struct Node *p){
-    if(p!=0){                      // Recursive Reverse of LL by using 2 pointers
+void LinkedList::recRev(Node* q, Node* p){
+    if(p!=0){
         recRev(p, p->next);
         p->next = q;
     }else{
-        first = q;
+        head = q;
     }
 }
 
-void concat(struct Node *p, struct Node *q){
-    while(p->next != 0){            // concatenating 2 LL
+void LinkedList::concat(Node* head1, Node* head2){
+    Node* p = head1;
+    while(p->next != NULL){
         p=p->next;
     }
-    p->next = q;
-    // second = NULL;   // making head of 2nd LL NULL
+    p->next = head2;
+    head2 = NULL;
 }
 
-struct Node* merge(struct Node *p, struct Node *q){
-    struct Node *third=NULL, *last=NULL;
-                                                  // Merge 2 sorted LL
+void LinkedList::merge2LL(Node* p, Node* q){
+    // third => head of new merged LL
+    // last => last node of new merged LL
+    Node *third, *last;
+
     if(p==0 && q==0) return NULL;
-    else if(p==0) return q;
-    else if(q==0) return p;
+    else if(p==0 && q!=0) return q;
+    else if(p!=0 && q==0) return p;
 
     if(p->data < q->data){
-        third=last=p;
+        third = last = p;
         p=p->next;
         last->next = NULL;
-    }else if(q->data < p->data){
-        third=last=q;
-        q=p->next;
+    }else{
+        third = last = q;
+        q=q->next;
         last->next = NULL;
     }
 
-    while(p!=0 && q!=0){
+    while(p && q){
         if(p->data < q->data){
             last->next = p;
             last = p;
-            p = p->next;
+            p=p->next;
             last->next = NULL;
-        }else if(q->data < p->data){
+        }else{
             last->next = q;
             last = q;
-            q = q->next;
+            q=q->next;
             last->next = NULL;
         }
     }
-    if(p!=0) last->next = p;
-    else last->next = q;
+
+    if(p != NULL) last->next = p;
+    else if(q != NULL) last->next = q;
 
     return third;
 }
 
-bool isLoop(struct Node *p){
-    struct Node *q = first;
-    do{                                    // Check for loop in LL
-        p = p->next;
-        q = q->next;
-        q = q==NULL?NULL:q->next;
-    }while(p && q && p!=q);
+// Fast & slow pointer technique
+// Floyd's Cycle finding algorithm
+// Hare-Tortoise algorithm
+bool LinkedList::isLoop(Node* head){
+    // Check if head is NULL or head->next==NULL (means single node)
+    if(head==NULL || head->next==NULL) return false;
+    Node *p = head, *q = head;
 
-    if(p==q) return true;
-    else return false;
-                                                // using while loop:
-    // struct Node *p = head, *q = head;
-    // if(head==NULL || head->next==NULL) return false;
-    // while(p&&q){
-    //     p=p->next;
-    //     q=q->next;
-    //     q= q==NULL?NULL:q->next;
-    //     if(p==q) return true;
-    // };
-    
-    // return false;
+    while(p && q){
+        p=p->next;
+        q=q->next;
+        if(q) q=q->next;
+
+        if(p==q) return true;
+    }
+    return false;
 }
 
-struct Node* middle(struct Node *p){
-    int c = lenofll(p);                        // find middle node of the LL
+Node* LinkedList::startOfLoop(Node* head){
+    // Check if head is NULL or head->next==NULL (means single node)
+    if(head==NULL || head->next==NULL) return NULL;
+    
+    Node *p = head, *q = head;
+    while(p && q){
+        p=p->next;
+        q=q->next;
+        if(q) q=q->next;
+
+        // p==q means we have reached the end point of cycle
+        if(p==q){
+            p = head;
+            while(p != q){
+                p=p->next;
+                q=q->next;
+            }
+            return p;          // starting point of cycle
+        }
+    }
+    return NULL;               // means no cylce is there
+}
+
+void LinkedList::removeLoop(Node* head){
+    if(head==NULL || head->next==NULL) return;
+    
+    Node *p = head, *q = head;
+    while(p && q){
+        p=p->next;
+        q=q->next;
+        if(q) q=q->next;
+        
+        if(p==q){
+            // it is not guarantee that p==q will be there only and only at last node
+            // That's why we can't make q->next=NULL directly
+            // eg testcase: 1 -> 2 -> 3 -> 4 -> 5 -> 3 (loop is from last node 3 to 5)
+            // That's why we need to find the starting point of loop and ending point
+            // so that we remove the loop from the correct node by making its next NULL
+            p = head;
+            while(p!=q){
+                p=p->next;
+                q=q->next;
+            }
+            while(q->next != p){
+                q=q->next;
+            }
+            q->next = NULL;
+            
+            return;
+        }
+    }
+}
+
+// Middle node of LL by simply dividing the length
+Node* LinkedList::middle(Node* head){
+    Node* p = head;
+    int c = count(head);
     if(c%2==0) c=c/2;
-    else c=(c/2)+1;
+    else c = (c/2)+1;
 
     for(int i=0; i<c-1; i++) p=p->next;
     return p;
 }
 
-int middle2(struct Node *p){
-    struct Node *q = first;                       // Find Middle Node using 2 pointers
-    while(q){
-        q=q->next;
-        if(q) q=q->next;
-        if(q) p=p->next;
+// Middle node of LL by taking two pointers => fast & slow
+// By the time q reaches the end of the LL => p will be at the middle node
+// when q==NULL, stop moving p
+Node* LinkedList::middle2(Node* head){
+    Node* fast = head;
+    Node* slow = head;
+
+    while(fast && fast->next){
+        fast = fast->next->next;
+        slow = slow->next;
     }
-    return p->data;
+
+    return slow;
 }
 
-
-/*
-
-LEETCODE QUE: Remove LL elements
-eg: [1,2,6,3,4,5,6] val=6 (remove all 6)
-eg: [7,7,7,7,7] val=7 (remove all 7)
-
-
-ListNode* removeElements(ListNode* head, int val){
-    ListNode *dummy = new ListNode(-1);
-    dummy->next = head;
-    ListNode *p = dummy; 
-    while(p && p->next){
-        if(p->next->val == val){
-            ListNode *temp = p->next;
-            p->next = temp->next;
-            delete temp;
-        }else{
-            p=p->next;
-        }
-    }
-
-    return dummy->next;
-}
-
-*/
-
-
-Node* RemoveElements(Node *p, int x){                   // Remove all occurences of x from LL
-    Node *dummy = new Node;
-    dummy->data = -1;
-    dummy->next = p;
-
-    Node* q = dummy;
-
-    while(q && q->next){
-        if(q->next->data == x){
-            Node * temp = q->next;
-            q->next = temp->next;
-            delete temp;
-        }else{
-            q=q->next;
-        }
-    }
+// APPROACH 1: Using 2 stacks
+Node* LinkedList::IntersectionOfTwoLL1(Node* head1, Node* head2){
+    // traverse to the end of both the LL & push the nodes in 2 stacks
+    // pop out the nodes from the stacks until you found a different node
+    // as ulta aane pe nodes same hongi till intersection point
     
-    return dummy->next;
-}
-
-// LEETCODE QUE
-bool isPalindrome(struct Node* p) {
-    string s="";                   // Checking if LL is Palindrome or not
-                                    // Palindrome: 1221 == 1221 (on reversing)
-    while(p){
-        s+= to_string(p->data);
-        p=p->next;
-    }
-
-    int low=0, high=s.length()-1;
-    while(low<high){
-        if(s[low]!=s[high]) return false;
-        low++;
-        high--;
-    }
-    return true;
-
-    }
-
-/*
-
-LEETCODE QUE: FIND INTERSECTION POINT OF 2 LL
-
-ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
-    ListNode *p1 = headA;
-    ListNode *p2 = headB;
+    ListNode* p = headA;
+    ListNode* q = headB;
+    ListNode* ans = NULL;
     
-    if(p1==0 || p2==0) return NULL;
-    
-    while(p1!=0 && p2!=0 && p1!=p2){
-        p1=p1->next;
-        p2=p2->next;
+    stack<ListNode *> s1;
+    stack<ListNode *> s2;
+
+    while(p != NULL){
+        s1.push(p);
+        p = p->next;
+    }
+
+    while(q != NULL){
+        s2.push(q);
+        q = q->next;
+    }
+
+    while(!s1.empty() && !s2.empty()){
+        if(s1.top() != s2.top()) break;
         
+        ans = s1.top();
+        s1.pop();
+        s2.pop();
+    }
+    return ans;
+}
+
+// APPROACH 2: Using 2 pointers
+Node* LinkedList::IntersectionOfTwoLL2(Node* head1, Node* head2){
+    ListNode* p1 = headA;
+    ListNode* p2 = headB;
+
+    if(p1==NULL || p2==NULL) return NULL;
+
+    while(p1 && p2 && p1!=p2){
+        p1 = p1->next;
+        p2 = p2->next;
+
         if(p1==p2) return p1;
-        
-        if(p1==NULL) p1=headB;
-        if(p2==NULL) p2=headA;
+
+        if(p1==NULL) p1 = headB;
+        if(p2==NULL) p2 = headA;
     }
-    
-    return p1;
+
+    return p1;       // NULL
 }
 
-*/
+// LEETCODE QUE: Remove LL elements
+// eg: [1,2,6,3,4,5,6] val=6 (remove all 6)
+// eg: [7,7,7,7,7] val=7 (remove all 7)
 
+// APPROACH 1: Using two pointers
+Node* LinkedList::removeLLElements1(Node* head, int val){
+    ListNode* p1 = head;
+    ListNode* p2 = head;
+
+    if (p1 == NULL) {
+        return NULL;
+    }
+
+    while (p1) {
+        if (p1->data == val) {
+            if (p1 == head) { // special case for removing the head node
+                head = p1->next;
+                p1 = head;
+                p2 = head;
+            } else {
+                p2->next = p1->next;
+                p1 = p2->next;
+            }
+        } else {
+            p2 = p1;
+            p1 = p1->next;
+        }
+    }
+    return head;
+}
+
+// APPROACH 2: Using dummy node
+Node* LinkedList::removeLLElements2(Node* head){
+
+}
 
 int main(){
     
-    int A[] = {1,2,3,4,5};
-    create(A, 5);
+    int arr[] = {1,2,3,4,5};
 
-    display(first);
-    cout<<endl;
-    // recDisplay(first);
-    // cout<<endl;
-    recDisplayRev(first);
+    LinkedList ll(arr, 5);
+
+    cout<<"Linked List: ";
+    ll.display(ll.head);
     cout<<endl;
 
-    cout<<"Length of LL: "<<lenofll(first)<<endl;
+    cout<<"Length of LL: "<<ll.count(ll.head)<<endl;
+    cout<<"Sum: "<<ll.sum(ll.head)<<endl;
+    cout<<"Maximum Element: "<<ll.maxEle(ll.head)<<endl;
+    cout<<"Linear Search: "<<ll.linearSearch(ll.head, 4)<<endl;
 
-    cout<<"Sum of elements: "<<sumofll(first)<<endl;
+    // ll.Insert(ll.head, 3, 100);
+    // ll.display(ll.head);
 
-    cout<<"Max ele: "<<maxele(first)<<endl;
+    // '&head' is the address of the head pointer, which is a pointer to a pointer of type Node.
+    // By passing &head as the first argument to deleteNode(), we are passing a double pointer to the head of the linked list.
+    // The function can then update the head pointer by dereferencing headRef (i.e., *headRef).
+    cout<<ll.deleteNode(&ll.head, 0)<<endl;
+    ll.display(ll.head);
 
-    cout<<"Linear Search: "<<linSearch(first, 3)<<endl;
-
-    // Insert(first, 4, 100);
-    // cout<<"Inserting new node: ";
-    // display(first);
-    // cout<<endl;
-
-    // InsertLast(100);
-    // display(first);
-
-    // InsInSort(first, 3);
-    // display(first);
-
-    // cout<<"Deleted element: "<<deleteNode(first, 4)<<endl;
-    // display(first);
-    // cout<<endl;
-
-    cout<<"Sorted or Not: "<<checkSort(first)<<endl;
-
-    // RemoveDupFromSortedLL(first);
-    // display(first);
-
-    // recRev(NULL,first);
-    // display(first);
-
-    // int B[] = {6,7,8,9,10};
-
-    // concat(first, second);
-    // display(first);
-
-    // merge(first, second);
-
-    cout<<"Middle Node: "<<middle2(first)<<endl;
-
-    // cout<<"Palindrome: "<<isPalindrome(first);
-
-    // Node *p = RemoveElements(first, 2);
-    // display(p);
-
-
+    cout<<"Check Sorted: "<<ll.checkSort(ll.head)<<endl;
+    cout<<"Reversed LL: "<<ll.revLinksLL(ll.head);
 
     return 0;
 }
-

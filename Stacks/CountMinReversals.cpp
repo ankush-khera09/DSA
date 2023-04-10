@@ -4,48 +4,44 @@ using namespace std;
 
 int countMinReversals(string str)
 {
-    // Step 1: Initialize a stack of char type and ans as 0.
-    stack<char> st;
+
+    stack<char> s;
+    
     int ans = 0;
-
-    // Step 2: Run a loop for each character of the string
-    for (int i = 0; i < str.size(); i++)
-    {
-
-        // Step 2.1: If ' { ' encountered push it to the
-        // stack
-        if (str[i] == '{')
-            st.push(str[i]);
-        // Step 2.2: If ' } ' is encountered
-        else
-        {
-            // Step 2.2.1: If stack has a '{' present for
-            // '}' encountered, pop from the stack.
-            if (!st.empty())
-                st.pop();
-            // Step 2.2.2: If stack is empty, change '}' to
-            // '{' and push it to stack and increment ans by
-            // 1
-            else
-            {
-                st.push('{');
+    
+    for(int i=0; i<str.length(); i++){
+        char c = str[i];
+        
+        // in case of opening bracket => push in stack
+        if(c=='{') s.push(c);
+        
+        // in case of closing bracket
+        else{
+            // if stack isn't empty => pop out bracket as we found a pair {}
+            if(!s.empty()) s.pop();
+            
+            // if it empty => change closing to opening and push in stack
+            // also add 1 to ans
+            else{
+                s.push('{');
                 ans++;
             }
         }
     }
-    // Step 3: if stack size is odd return -1.
-    if (st.size() % 2 != 0)
-        return -1;
-    // Step 4: Increment ans by ( stackSize/2 ).
-    ans += st.size() / 2;
-
+    
+    // if the size of stack is odd => return -1 => can't form pair of {} then
+    if(s.size()%2 != 0) return -1;
+    // if size of stack is even
+    else ans += s.size()/2;
+    
     return ans;
 }
 
 int main()
 {
-    // string expr = "{{{{}}";
-    string expr = "{{{";
+    string expr = "{{{{}}";
+    // string expr = "}}{";
+    // string expr = "{{{";
     cout << countMinReversals(expr);
     return 0;
 }

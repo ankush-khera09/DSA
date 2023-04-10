@@ -19,8 +19,7 @@ int prec(char c)
 void infixToPostfix(string s)
 {
  
-    stack<char> st; // For stack operations, we are using
-                    // C++ built in stack
+    stack<char> st; // For stack operations, we are using C++ built in stack
     string result;
  
     for (int i = 0; i < s.length(); i++) {

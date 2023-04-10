@@ -7,6 +7,7 @@ class TwoStack {
     int top1;
     int top2;
     int size;
+    
 public:
 
     // Initialize TwoStack.
