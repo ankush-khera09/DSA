@@ -143,6 +143,7 @@ void Tree::IterInOrder(Node *p){
     }
 }
 
+// InOrder Traversal without Recursion or Stack
 void Tree::MorrisTraversal(Node* root){
     
     if(root == NULL) return;
@@ -196,37 +197,55 @@ void Tree::IterPostOrder(Node *p){
                 p = ((Node*)temp)->rchild;
             }else{                                // if -ve => print & make it NULL again so that it can pop again
                 cout<<((Node*)(-1 * temp))->data<<" ";
-                p = NULL;
+                p = NULL;      // so that it can be popped out again
             }
         }
     }
 }
 
 void Tree::LevelOrder(Node *p){
+    // queue<Node*> q;
+
+    // cout<<p->data<<" ";         // printing root node's data
+    // q.emplace(p);               // pushing root node in queue
+
+    // while(!q.empty()){
+    //     p = q.front();
+    //     q.pop();
+    //     // if left child exists
+    //     if(p->lchild){
+    //         cout<<p->lchild->data<<" ";
+    //         q.emplace(p->lchild);
+    //     }
+    //     // if right child exists
+    //     if(p->rchild){
+    //         cout<<p->rchild->data<<" ";
+    //         q.emplace(p->rchild);
+    //     }
+    // }
+
+
     queue<Node*> q;
 
-    cout<<p->data<<" ";         // printing root node's data
-    q.emplace(p);               // pushing root node in queue
+    q.push(p);
 
     while(!q.empty()){
-        p = q.front();
+        Node* front = q.front();
         q.pop();
-        // if left child exists
-        if(p->lchild){
-            cout<<p->lchild->data<<" ";
-            q.emplace(p->lchild);
-        }
-        // if right child exists
-        if(p->rchild){
-            cout<<p->rchild->data<<" ";
-            q.emplace(p->rchild);
-        }
+
+        cout<<front->data<<" ";
+
+        if(front->lchild) q.push(front->lchild);
+        if(front->rchild) q.push(front->rchild);
     }
 }
 
-// PRINTING LEVELS IN DIFFERENT LINES:
+// PRINTING LEVELS IN DIFFERENT LINES: https://leetcode.com/problems/binary-tree-level-order-traversal/description/
 
 /*
+
+// with & without NULL: see leetcode
+// with NULL:
 void Tree::LevelOrder(Node *p){
     queue<Node*> q;
 
@@ -255,6 +274,7 @@ void Tree::LevelOrder(Node *p){
 }
 */
 
+// no. of nodes
 int Tree::Count(Node *p){
     int x, y;
     if(p){
@@ -266,6 +286,7 @@ int Tree::Count(Node *p){
 }
 
 // or
+
 /*
 int Tree::Count(Node *p){
     if(p==NULL) return 0;
@@ -379,3 +400,35 @@ int main(){
 
     return 0;
 }
+
+
+/*
+
+BINARY TREE PRACTICE QUESTIONS: LOVE BABBAR:
+
+1. Diameter of a Binary Tree: https://practice.geeksforgeeks.org/problems/diameter-of-binary-tree/1
+2. Check for Balanced Tree: https://practice.geeksforgeeks.org/problems/check-for-balanced-tree/1
+3. Determine if Two Trees are Identical: https://practice.geeksforgeeks.org/problems/determine-if-two-trees-are-identical/1
+4. Sum Tree: https://practice.geeksforgeeks.org/problems/sum-tree/1
+
+5. ZigZag Tree Traversal: https://practice.geeksforgeeks.org/problems/zigzag-tree-traversal/1
+6. Boundary Traversal of Binary Tree: https://practice.geeksforgeeks.org/problems/boundary-traversal-of-binary-tree/1
+7. Vertical Traversal of Binary Tree: https://practice.geeksforgeeks.org/problems/print-a-binary-tree-in-vertical-order/1
+8. Top View of Binary Tree: https://practice.geeksforgeeks.org/problems/top-view-of-binary-tree/1
+9. Bottom View of Binary Tree: https://practice.geeksforgeeks.org/problems/bottom-view-of-binary-tree/1
+10. Left View of Binary Tree: https://practice.geeksforgeeks.org/problems/left-view-of-binary-tree/1
+11. Right View of Binary Tree: https://practice.geeksforgeeks.org/problems/right-view-of-binary-tree/1
+12. Diagonal Traversal of Binary Tree: https://practice.geeksforgeeks.org/problems/diagonal-traversal-of-binary-tree/1
+
+13. Sum of the Longest Bloodline of a Tree (Sum of nodes on the longest path from root to leaf node): https://practice.geeksforgeeks.org/problems/sum-of-the-longest-bloodline-of-a-tree/1
+14. Lowest Common Ancestor in a Binary Tree: https://practice.geeksforgeeks.org/problems/lowest-common-ancestor-in-a-binary-tree/1
+15. K Sum Paths: https://practice.geeksforgeeks.org/problems/k-sum-paths/1
+16. Kth Ancestor in a Tree: https://practice.geeksforgeeks.org/problems/kth-ancestor-in-a-tree/1
+17. Maximum sum of Non-adjacent nodes: https://practice.geeksforgeeks.org/problems/maximum-sum-of-non-adjacent-nodes/1
+
+18. Construct Tree from Inorder & Preorder: https://practice.geeksforgeeks.org/problems/construct-tree-1/1
+19. 
+
+    DO MAXIMUM PATH SUM QUE ON LEETCODE
+
+*/

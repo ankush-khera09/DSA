@@ -37,7 +37,7 @@ class LinkedList{
 
         void display(Node* head);            // to print the LL
         void RecDisplay(Node* head);                  // Recursively
-        void RecDisplayRec(Node* head);              // Recursively + print in reverse order
+        void RecDisplayRev(Node* head);              // Recursively + print in reverse order
 
         int count(Node* head);                  // length of LL (no. of nodes in LL)
         int RecCount(Node* head);
@@ -53,7 +53,7 @@ class LinkedList{
         Node* ImprovedLinearSearch(Node* head, int key);         // using "MOVE TO HEAD" method
 
         void Insert(Node* head, int index, int ele);
-        void InsertAtLast(Node* head, int ele);
+        Node* InsertAtLast(Node* head, int ele);
         void InsertInSortedLL(Node* head, int ele);
 
         int deleteNode(Node** head, int index);
@@ -68,7 +68,7 @@ class LinkedList{
 
         void concat(Node* head1, Node* head2);
 
-        void merge2LL(Node* p, Node* q);
+        Node* merge2LL(Node* p, Node* q);
 
         bool isLoop(Node* head);
         Node* startOfLoop(Node* head);
@@ -100,10 +100,10 @@ void LinkedList::RecDisplay(Node* head){
     }
 }
 
-void LinkedList::RecDisplayRec(Node* head){
+void LinkedList::RecDisplayRev(Node* head){
     Node* p = head;
     if(p){
-        RecDisplayRec(p->next);
+        RecDisplayRev(p->next);
         cout<<p->data<<" ";
     }
 }
@@ -224,7 +224,7 @@ void LinkedList::Insert(Node* head, int index, int ele){
 }
 
 // Creating a LL by inserting node at last
-void LinkedList::InsertAtLast(Node* head, int ele){
+Node* LinkedList::InsertAtLast(Node* head, int ele){
     Node* temp = new Node(ele);
 
     // if the LL is empty
@@ -234,8 +234,8 @@ void LinkedList::InsertAtLast(Node* head, int ele){
         Node* last = head;
         while(last->next != NULL) last = last->next;
         last->next = temp;
-        last = temp;
     }
+    return head;     // return new updated head (this will help when LL is empty at first)
 }
 
 // Inserting Node in a Sorted LL
@@ -255,6 +255,7 @@ void LinkedList::InsertInSortedLL(Node* head, int ele){
         if(p==head){
             temp->next = head;
             head = temp;
+            
         }else{
             q->next = temp;
             temp->next = p;
@@ -286,7 +287,7 @@ int LinkedList::deleteNode(Node** head, int index){
             p = p->next;
         }
         q->next=p->next;
-        x = q->data;
+        x = p->data;
         delete p;
     }
     return x;
@@ -324,7 +325,7 @@ void LinkedList::removeDuplicatesFromSortedLL(Node* head){
 
 void LinkedList::revLL(Node* head){
     int n = count(head);
-    int arr[] = new int[n];
+    int arr[n];
 
     Node* p = head;
     int i = 0;
@@ -345,7 +346,7 @@ Node* LinkedList::revLinksLL(Node* head){
     // q => current node
     // p => next node
     Node *p = head;
-    Node *q = *r = NULL;
+    Node *q=NULL, *r=NULL;
 
     while(p){
         r = q;
@@ -374,7 +375,7 @@ void LinkedList::concat(Node* head1, Node* head2){
     head2 = NULL;
 }
 
-void LinkedList::merge2LL(Node* p, Node* q){
+Node* LinkedList::merge2LL(Node* p, Node* q){
     // third => head of new merged LL
     // last => last node of new merged LL
     Node *third, *last;
@@ -516,12 +517,12 @@ Node* LinkedList::IntersectionOfTwoLL1(Node* head1, Node* head2){
     // pop out the nodes from the stacks until you found a different node
     // as ulta aane pe nodes same hongi till intersection point
     
-    ListNode* p = headA;
-    ListNode* q = headB;
-    ListNode* ans = NULL;
+    Node* p = head1;
+    Node* q = head2;
+    Node* ans = NULL;
     
-    stack<ListNode *> s1;
-    stack<ListNode *> s2;
+    stack<Node *> s1;
+    stack<Node *> s2;
 
     while(p != NULL){
         s1.push(p);
@@ -544,9 +545,9 @@ Node* LinkedList::IntersectionOfTwoLL1(Node* head1, Node* head2){
 }
 
 // APPROACH 2: Using 2 pointers
-Node* LinkedList::IntersectionOfTwoLL2(Node* head1, Node* head2){
-    ListNode* p1 = headA;
-    ListNode* p2 = headB;
+Node* LinkedList::IntersectionOfTwoLL2(Node* headA, Node* headB){
+    Node* p1 = headA;
+    Node* p2 = headB;
 
     if(p1==NULL || p2==NULL) return NULL;
 
@@ -569,8 +570,8 @@ Node* LinkedList::IntersectionOfTwoLL2(Node* head1, Node* head2){
 
 // APPROACH 1: Using two pointers
 Node* LinkedList::removeLLElements1(Node* head, int val){
-    ListNode* p1 = head;
-    ListNode* p2 = head;
+    Node* p1 = head;
+    Node* p2 = head;
 
     if (p1 == NULL) {
         return NULL;
