@@ -270,6 +270,7 @@ int unionofsets1(int arr1[], int n1, int arr2[], int n2, int arr3[]){
 }
 
 ////////////// Sorted Arrays
+// The below solution will fail for duplicate elements. You can refer this: https://www.geeksforgeeks.org/problems/union-of-two-sorted-arrays-1587115621/1
 int unionofsets2(int arr1[], int n1, int arr2[], int n2, int arr3[]){
     int i=0, j=0, k=0;
 
