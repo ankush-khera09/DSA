@@ -350,7 +350,7 @@ Node* LinkedList::revLinksLL(Node* head){
 
     while(p){
         r = q;
-        r = p;
+        q = p;
         p = p->next;
         q->next = r;      // reversing link
     }
@@ -489,10 +489,9 @@ void LinkedList::removeLoop(Node* head){
 Node* LinkedList::middle(Node* head){
     Node* p = head;
     int c = count(head);
-    if(c%2==0) c=c/2;
-    else c = (c/2)+1;
+    c = c/2;
 
-    for(int i=0; i<c-1; i++) p=p->next;
+    for(int i=0; i<c; i++) p=p->next;
     return p;
 }
 

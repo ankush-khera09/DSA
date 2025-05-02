@@ -294,15 +294,12 @@ int Tree::Count(Node *p){
 }
 */
 
-int Tree::Height(Node *p){
-    int x=0, y=0;
-    if(p){
-        x = Height(p->lchild);
-        y = Height(p->rchild);
-        if(x>y) return x+1;
-        else return y+1;
-    }
-    return 0;
+int Tree::Height(Node *root){
+    if(root==NULL) return 0;
+
+    int left = Height(root->left);
+    int right = Height(root->right);
+    return max(left, right)+1;
 }
 
 int Tree::Sum(Node *p){
