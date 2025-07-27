@@ -37,7 +37,8 @@ class Graph{
         }
 
         // BREADTH FIRST TRAVERSAL ---------------------------------
-
+// Links to BFS on platforms: https://www.geeksforgeeks.org/problems/bfs-traversal-of-graph/1
+//     CodeStudio:            https://www.naukri.com/code360/problems/bfs-in-graph_973002?leftPanelTabValue=PROBLEM
         void BFS(int source){
             unordered_map<int, bool> visited;   // to keep track of all visited vertices
 
@@ -75,6 +76,8 @@ class Graph{
         // DEPTH FIRST TRAVERSAL ------------------------
         // (using recursion)
 
+// Link to platforms:  https://www.geeksforgeeks.org/problems/depth-first-traversal-for-a-graph/1
+// Codestudio       :  https://www.naukri.com/code360/problems/dfs-traversal_630462?leftPanelTab=0&utm_source=youtube&utm_medium=affiliate&utm_campaign=Lovebabbar&leftPanelTabValue=PROBLEM
         void DFS(int node){
             // static bcz this visited map should remain same for every recursive call
             static unordered_map<int, bool> visited;
