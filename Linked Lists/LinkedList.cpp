@@ -234,28 +234,21 @@ Node* LinkedList::InsertAtLast(Node* head, int ele){
 }
 
 // Inserting Node in a Sorted LL
-void LinkedList::InsertInSortedLL(Node* head, int ele){
-    Node* p = head;
-    Node* q = NULL;
+// passing head by ref as changing head inside won't reflect on main head otherwise
+void LinkedList::InsertInSortedLL(Node *&head, int ele){
+    Node *temp = new Node(ele);
 
-    Node* temp = new Node(ele);
-
-    if(head==NULL) head = temp;
-    else{
-        while(p && p->data < temp->data){
-            q = p; 
-            p = p->next;
-        }
-
-        if(p==head){
-            temp->next = head;
-            head = temp;
-            
-        }else{
-            q->next = temp;
-            temp->next = p;
-        }
+    // if empty list or ele to be inserted at first
+    if(head==NULL || ele <= head->data){
+        temp->next = head;
+        head = temp;
+        return;
     }
+    
+    Node *p = head;
+    while(p->next && p->next->data < ele) p = p->next;
+    temp->next = p->next;
+    p->next = temp;
 }
 
 // we have used here **head as we are passing this pointer head as call by reference using pointer
