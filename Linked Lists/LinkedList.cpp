@@ -155,14 +155,9 @@ int LinkedList::maxEle(Node* head){
 }
 
 int LinkedList::RecMaxEle(Node* head){
-    Node* p = head;
-    int maxi = INT_MIN;
-
-    if(p==0) return INT_MIN;
+    if(head==NULL) return INT_MIN;
     
-    maxi = RecMaxEle(p->next);
-    if(p->data > maxi) return p->data;
-    return maxi;
+    return max(head->data, recMaxEle(head->next));
 }
 
 Node* LinkedList::linearSearch(Node* head, int key){
