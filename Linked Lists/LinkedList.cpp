@@ -347,6 +347,17 @@ void LinkedList::revLL(Node* head){
     }
 }
 
+Node* LinkedList::reverseLL(Node* head){
+    Node *curr=head, *prev=NULL, *next=NULL;
+    while(curr){
+        next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
+    }
+    return prev;
+}
+
 Node* LinkedList::revLinksLL(Node* head){
     // r => previous node
     // q => current node
