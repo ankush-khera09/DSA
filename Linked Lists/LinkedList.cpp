@@ -251,6 +251,28 @@ void LinkedList::InsertInSortedLL(Node *&head, int ele){
     p->next = temp;
 }
 
+// In C++, we can use [ Node* &head ] => this will be reference to the pointer
+int LinkedList::deleteNode(Node* &head, int index){
+    if(index<0 || index>=count(head)) return -1;
+
+    Node* p = head;
+    int x = -1;
+
+    // if it is the first node
+    if(index==0){
+        head = head->next;
+        x = p->data;
+        delete p;
+    }else{
+        for(int i=0; i<index-1; i++) p=p->next;
+        Node* q = p->next;    // node to be deleted
+        p->next = p->next->next;
+        x = q->data;
+        delete q;
+    }
+    return x;
+}
+
 // we have used here **head as we are passing this pointer head as call by reference using pointer
 // this is because when index==0, head node for this below function will be updated but the real head will
 // remain same and will not reflect any change
