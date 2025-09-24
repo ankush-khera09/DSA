@@ -315,19 +315,18 @@ bool LinkedList::checkSort(Node* head){
 }
 
 void LinkedList::removeDuplicatesFromSortedLL(Node* head){
-    Node* p = head;
-    Node* q = head->next;        // 1 2 3 4 4 5
-
-    while(q){
-        if(p->data == q->data){
-            p->next = q->next;
-            delete q;
-            q = p->next;
-        }else{
-            p = q;
-            q = q->next;
-        }
+    while(head->next){
+    if(head->data == head->next->data){
+        Node* q = head->next;
+        head->next = head->next->next;
+        delete q;
+    }else{
+        // move only if no deletion because we can have multiple duplicates
+        // 1 1 1 2 3 4
+        // first duplicate remove hoga => 1 1 2 3 4 => head ko vhi rehne do taaki next bhi delete ho paaye
+        head = head->next;
     }
+}
 }
 
 void LinkedList::revLL(Node* head){
