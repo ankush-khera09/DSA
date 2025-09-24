@@ -374,6 +374,25 @@ Node* LinkedList::revLinksLL(Node* head){
     return q;       // returning new head
 }
 
+Node* LinkedList::recursiveReverseLL(Node* head){
+    // base case: 0 or 1 node => return head
+    if(head==NULL || head->next==NULL) return head;
+
+    // At each step, we assume the recursion will reverse the list after the current node.
+    // So, when we call reverseRec(head->next), we are saying:
+    // “Please reverse everything after me, I’ll fix my pointer later.”
+    Node* newHead = recursiveReverseLL(head->next);
+
+    // current node ke aage ki LL reverse ho chuki hai, ab new head dene se phle uska link set krdo
+    // 1 2 3 4 => suppose current node is 1, so, 2 3 4 already reverse ho chuke hai
+    // now, 4 is the new head and 2 is the last node
+    // so, head->next->next is 1->2->next (1 is current head) => 2 ko 1 se link kr rhe hai and fir 1 ke next ko NULL
+    head->next->next = head;
+    head->next = NULL;
+
+    return newHead;
+}
+
 void LinkedList::recRev(Node* q, Node* p){
     if(p!=0){
         recRev(p, p->next);
