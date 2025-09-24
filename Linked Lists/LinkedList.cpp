@@ -303,16 +303,13 @@ int LinkedList::deleteNode(Node** head, int index){
     return x;
 }
 
-// using just one pointer
-// we will store value of previous node and move p to compare with previous value & then update previous value
 bool LinkedList::checkSort(Node* head){
-    Node* p = head;
-    int previous = INT_MIN;
-    while(p){
-        if(p->data < previous) return false;
-        
-        previous = p->data;
-        p=p->next;
+    // empty list or single node is always sorted
+    if(head==NULL || head->next==NULL) return true;
+    
+    while(head->next){
+        if(head->data > head->next->data) return false;
+        head=head->next;
     }
     return true;
 }
