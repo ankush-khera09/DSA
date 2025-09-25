@@ -603,36 +603,19 @@ Node* LinkedList::IntersectionOfTwoLL2(Node* headA, Node* headB){
 // eg: [1,2,6,3,4,5,6] val=6 (remove all 6)
 // eg: [7,7,7,7,7] val=7 (remove all 7)
 
-// APPROACH 1: Using two pointers
 Node* LinkedList::removeLLElements1(Node* head, int val){
-    Node* p1 = head;
-    Node* p2 = head;
+    // Remove all leading nodes with value == val
+    // example: 6 6 6 1 2 3 => remove 6
+    // toh phle leadin wale sab hta do => 1 2 3
+    while(head && head->data == val) head=head->next;
 
-    if (p1 == NULL) {
-        return NULL;
-    }
-
-    while (p1) {
-        if (p1->data == val) {
-            if (p1 == head) { // special case for removing the head node
-                head = p1->next;
-                p1 = head;
-                p2 = head;
-            } else {
-                p2->next = p1->next;
-                p1 = p2->next;
-            }
-        } else {
-            p2 = p1;
-            p1 = p1->next;
-        }
+    // now either head is null or a node with val != target
+    Node *p = head;
+    while(p && p->next){
+        if(p->next->val == val) p->next = p->next->next;
+        else p=p->next;
     }
     return head;
-}
-
-// APPROACH 2: Using dummy node
-Node* LinkedList::removeLLElements2(Node* head){
-
 }
 
 int main(){
