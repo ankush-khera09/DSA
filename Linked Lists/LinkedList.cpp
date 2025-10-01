@@ -546,6 +546,9 @@ Node* LinkedList::middle2(Node* head){
     return slow;
 }
 
+// REFER to LEETCODE for INTERSECTION of two linked lists question: https://leetcode.com/problems/intersection-of-two-linked-lists/
+// It has all approaches
+
 // APPROACH 1: Using 2 stacks
 Node* LinkedList::IntersectionOfTwoLL1(Node* head1, Node* head2){
     // traverse to the end of both the LL & push the nodes in 2 stacks
