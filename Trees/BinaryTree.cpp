@@ -9,6 +9,12 @@ class Node{
         Node* lchild;
         int data;
         Node* rchild;
+
+        Node(int x){
+            this->data = x;
+            this->lchild = NULL;
+            this->rchild = NULL;
+        }
 };
 
 class Tree{
@@ -51,21 +57,18 @@ class Tree{
 };
 
 void Tree::CreateTree(){
-    Node *p, *t;        // temporary pointers
     int x;
-    queue<Node*> q;     // Making STL queue
+    queue<Node*> q;
 
     cout<<"Enter Root Value: ";
     cin>>x;
 
-    root = new Node;
-    root->data = x;
-    root->lchild = root->rchild = NULL;
-    q.emplace(root);
+    this->root = new Node(x);
+    q.push(root);
 
     while(!q.empty()){
         // queue se ek node pointer bhar nikala
-        p = q.front();
+        Node *p = q.front();
         q.pop();
 
         // usse pucha if uska left child hai
@@ -74,11 +77,9 @@ void Tree::CreateTree(){
 
         // if left child exists
         if(x != -1){
-            t = new Node;
-            t->data = x;
-            t->lchild = t->rchild = NULL;
-            p->lchild = t;      // p ke lchild ko isse point kra diya
-            q.emplace(t);       // lchild ke address ko queue me daal diya
+            Node *temp = new Node(x);
+            p->lchild = temp;      // p ke lchild ko isse point kra diya
+            q.emplace(temp);       // lchild ke address ko queue me daal diya
         }
 
         // Asking if right child exists
@@ -87,11 +88,9 @@ void Tree::CreateTree(){
 
         // if right child exists
         if(x != -1){
-            t = new Node;
-            t->data = x;
-            t->lchild = t->rchild = NULL;
-            p->rchild = t;      // p ke lchild ko isse point kra diya
-            q.emplace(t);       // lchild ke address ko queue me daal diya
+            Node *temp = new Node(x);
+            p->rchild = temp;      // p ke lchild ko isse point kra diya
+            q.emplace(temp);       // lchild ke address ko queue me daal diya
         }
     } 
 }
