@@ -199,7 +199,7 @@ void Tree::IterPostOrder(Node *root){
                 root = root->rchild;
             }else{
                 cout<<root->data<<" ";
-                root = NULL;
+                root = NULL;   // make root NULL so that we can pop element from stack again
             }
         }
     }
