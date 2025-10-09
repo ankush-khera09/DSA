@@ -181,22 +181,25 @@ void Tree::PostOrder(Node *p){
     }
 }
 
-void Tree::IterPostOrder(Node *p){
-    stack<long int> s;
-    long int temp;
-    while(p || !s.empty()){
-        if(p){
-            s.push((long int)p);        // if p!=0 => push in stack => move to lchild
-            p = p->lchild;
+void Tree::IterPostOrder(Node *root){
+    stack<Node*> s;
+    while(root || !s.empty()){
+        if(root){
+            s.push(root);    // push 2 times
+            s.push(root);
+            root = root->lchild;
         }else{
-            temp = s.top();            // if p==0 => pop out => check if +ve or -ve
+            root = s.top();
             s.pop();
-            if(temp>0){                  // if +ve => push(-ve) in stack => move to rchild
-                s.emplace(-temp);
-                p = ((Node*)temp)->rchild;
-            }else{                                // if -ve => print & make it NULL again so that it can pop again
-                cout<<((Node*)(-1 * temp))->data<<" ";
-                p = NULL;      // so that it can be popped out again
+
+            // if current root (first ele nikal liya stack se) == current top of stack (duplicate ele in stack)
+            // this means, first time visit kiya hai => so, move to right child
+            // if not then this means us node pe 2nd time aaye hai => right child already covered => now print it
+            if(!s.empty() && root==s.top()){
+                root = root->rchild;
+            }else{
+                cout<<root->data<<" ";
+                root = NULL;
             }
         }
     }
